@@ -1,0 +1,968 @@
+$(document).ready(function () {
+
+    /* =====================================================
+       KENDO GRID
+    ===================================================== */
+
+    $("#grid").kendoGrid({
+
+        // DATA SOURCE
+        dataSource: {
+
+            transport: {
+                read: "/api/read",      // GET
+                create: "/api/create",  // POST
+                update: "/api/update",
+                destroy: "/api/delete"
+            },
+
+            schema: {
+                model: {
+
+                    id: "id",
+
+                    fields: {
+                        id: { type: "number", editable: false },
+                        name: { type: "string" },
+                        age: { type: "number" },
+                        date: { type: "date" }
+                    }
+
+                }
+            },
+
+            pageSize: 10,
+
+            serverPaging: false,
+            serverFiltering: false,
+            serverSorting: false
+        },
+
+        height: 500,
+
+        sortable: true,
+        filterable: true,
+        groupable: true,
+
+        resizable: true,
+        reorderable: true,
+
+        selectable: "row",
+
+        pageable: {
+            refresh: true,
+            pageSizes: true,
+            buttonCount: 5
+        },
+
+        toolbar: [
+            "create",
+            "search",
+            "excel",
+            "pdf"
+        ],
+
+        editable: "popup",
+
+        columns: [
+
+            { field: "id", title: "ID", width: 80 },
+
+            { field: "name", title: "Name" },
+
+            { field: "age", title: "Age" },
+
+            { field: "date", title: "Date", format: "{0:yyyy-MM-dd}" },
+
+            {
+                command: ["edit", "destroy"],
+                title: "Action",
+                width: 200
+            }
+
+        ]
+
+    });
+
+
+    /* =====================================================
+       KENDO FORM
+    ===================================================== */
+
+    $("#form").kendoForm({
+
+        formData: {
+            name: "",
+            email: "",
+            age: null
+        },
+
+        layout: "grid",
+
+        grid: {
+            cols: 2,
+            gutter: 20
+        },
+
+        items: [
+
+            {
+                field: "name",
+                label: "Name",
+                validation: {
+                    required: true
+                }
+            },
+
+            {
+                field: "email",
+                label: "Email",
+                validation: {
+                    required: true,
+                    email: true
+                }
+            },
+
+            {
+                field: "age",
+                label: "Age",
+                editor: "NumericTextBox"
+            }
+
+        ],
+
+        buttonsTemplate:
+            '<button class="k-button k-primary">Submit</button>' +
+            '<button class="k-button">Cancel</button>'
+    });
+
+
+    /* =====================================================
+       DROPDOWN LIST
+    ===================================================== */
+
+    $("#dropdown").kendoDropDownList({
+
+        dataTextField: "text",
+        dataValueField: "value",
+
+        optionLabel: "Select Option",
+
+        filter: "contains",
+
+        dataSource: [
+            { text: "Admin", value: 1 },
+            { text: "User", value: 2 }
+        ],
+
+        height: 300
+
+    });
+
+
+    /* =====================================================
+       COMBOBOX
+    ===================================================== */
+
+    $("#combobox").kendoComboBox({
+
+        dataTextField: "text",
+
+        dataValueField: "value",
+
+        filter: "contains",
+
+        suggest: true,
+
+        placeholder: "Select item",
+
+        dataSource: []
+
+    });
+
+
+    /* =====================================================
+       DATE PICKER
+    ===================================================== */
+
+    $("#datepicker").kendoDatePicker({
+
+        value: new Date(),
+
+        format: "yyyy-MM-dd",
+
+        min: new Date(2000, 0, 1),
+
+        max: new Date(2030, 11, 31)
+
+    });
+
+
+    /* =====================================================
+       TIME PICKER
+    ===================================================== */
+
+    $("#timepicker").kendoTimePicker({
+
+        interval: 30,
+
+        format: "HH:mm"
+
+    });
+
+
+    /* =====================================================
+       NUMERIC TEXTBOX
+    ===================================================== */
+
+    $("#numeric").kendoNumericTextBox({
+
+        min: 0,
+        max: 100,
+        step: 1,
+
+        format: "n0"
+
+    });
+
+
+    /* =====================================================
+       SWITCH
+    ===================================================== */
+
+    $("#switch").kendoSwitch({
+
+        checked: true,
+
+        messages: {
+            checked: "ON",
+            unchecked: "OFF"
+        }
+
+    });
+
+
+    /* =====================================================
+       UPLOAD
+    ===================================================== */
+
+    $("#upload").kendoUpload({
+
+        async: {
+            saveUrl: "/upload",
+            removeUrl: "/remove",
+            autoUpload: true
+        },
+
+        multiple: true,
+
+        validation: {
+            allowedExtensions: [".jpg", ".png", ".pdf"],
+            maxFileSize: 5000000
+        }
+
+    });
+
+
+    /* =====================================================
+       WINDOW
+    ===================================================== */
+
+    $("#window").kendoWindow({
+
+        width: "500px",
+        height: "300px",
+
+        title: "Popup Window",
+
+        modal: true,
+
+        visible: false,
+
+        actions: [
+            "Minimize",
+            "Maximize",
+            "Close"
+        ]
+
+    });
+
+
+    /* =====================================================
+       TABSTRIP
+    ===================================================== */
+
+    $("#tabstrip").kendoTabStrip({
+
+        animation: {
+            open: {
+                effects: "fadeIn"
+            }
+        }
+
+    });
+
+
+    /* =====================================================
+       TREEVIEW
+    ===================================================== */
+
+    $("#treeview").kendoTreeView({
+
+        dataSource: [],
+
+        dataTextField: "text",
+
+        loadOnDemand: true
+
+    });
+
+
+    /* =====================================================
+       PANELBAR
+    ===================================================== */
+
+    $("#panelbar").kendoPanelBar({
+
+        expandMode: "single"
+
+    });
+
+
+    /* =====================================================
+       STEPPER
+    ===================================================== */
+
+    $("#stepper").kendoStepper({
+
+        steps: [
+            { label: "Step 1" },
+            { label: "Step 2" },
+            { label: "Step 3" }
+        ],
+
+        orientation: "horizontal"
+
+    });
+
+
+    /* =====================================================
+       DRAWER
+    ===================================================== */
+
+    $("#drawer").kendoDrawer({
+
+        mode: "push",
+
+        mini: false,
+
+        position: "left",
+
+        template: ""
+
+    });
+
+
+    /* =====================================================
+       NOTIFICATION
+    ===================================================== */
+
+    $("#notification").kendoNotification({
+
+        position: {
+            top: 20,
+            right: 20
+        },
+
+        autoHideAfter: 3000,
+
+        stacking: "down"
+
+    });
+
+
+    /* =====================================================
+       CHART
+    ===================================================== */
+
+    $("#chart").kendoChart({
+
+        title: {
+            text: "Sales Report"
+        },
+
+        legend: {
+            position: "top"
+        },
+
+        series: [
+            {
+                name: "Sales",
+                data: [10, 20, 30, 40]
+            }
+        ],
+
+        categoryAxis: {
+            categories: ["Q1", "Q2", "Q3", "Q4"]
+        },
+
+        tooltip: {
+            visible: true
+        }
+
+    });
+
+
+    /* =====================================================
+       SCHEDULER
+    ===================================================== */
+
+    $("#scheduler").kendoScheduler({
+
+        date: new Date(),
+
+        height: 600,
+
+        views: [
+            "day",
+            "week",
+            "month",
+            "agenda"
+        ],
+
+        editable: true,
+
+        dataSource: {
+            data: [],
+            schema: {
+                model: {
+                    id: "id",
+                    fields: {
+                        id: { type: "number" },
+                        title: { defaultValue: "Event" },
+                        start: { type: "date" },
+                        end: { type: "date" }
+                    }
+                }
+            }
+        }
+
+    });
+
+
+    /* =====================================================
+       EDITOR (RICH TEXT)
+    ===================================================== */
+
+    $("#editor").kendoEditor({
+
+        tools: [
+            "bold",
+            "italic",
+            "underline",
+            "insertImage",
+            "insertFile"
+        ]
+
+    });
+
+
+    /* =====================================================
+       PROGRESSBAR
+    ===================================================== */
+
+    $("#progress").kendoProgressBar({
+
+        min: 0,
+        max: 100,
+
+        value: 40
+
+    });
+
+
+    /* =====================================================
+       SLIDER
+    ===================================================== */
+
+    $("#slider").kendoSlider({
+
+        min: 0,
+        max: 100,
+
+        smallStep: 1,
+
+        largeStep: 10,
+
+        value: 20
+
+    });
+
+});
+
+
+
+----------------------------------------------------------------------------------------------------------------------------------------------
+@{
+    ViewData["Title"] = "Grid Template";
+}
+
+<div id="grid"></div>
+<div id="notification"></div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function(){
+            var dataSource=new kendo.data.DataSource({ //create a new Kendo UI DataSource
+                transport:{  // configure the transport options for the DataSource
+                    
+                    read:{ //define the read operation for the DataSource
+                        url:"https://localhost:7285/MyCity/City_Read", //set the URL to fetch data from
+                        dataType:"json" //specify that the data type is JSON
+                    },
+                    create:{ //define the create operation for the DataSource
+                        url:"https://localhost:7285/MyCity/City_Create", //set the URL to send new data to
+                        dataType:"json", //specify that the data type is JSON
+                        type:"POST" //use POST method for creating new records
+                    },
+                    update:{ //define the update operation for the DataSource
+                        url:"https://localhost:7285/MyCity/City_Update", //set the URL to send updated data to
+                        dataType:"json", //specify that the data type is JSON
+                        type:"POST" //use POST method for updating records
+                    },
+                    destroy:{ //define the destroy operation for the DataSource
+                        url:"https://localhost:7285/MyCity/City_Destroy", //set the URL to send delete requests to
+                        dataType:"json", //specify that the data type is JSON
+                        type:"POST" //use POST method for deleting records
+                    }
+
+                },
+                pageSize:5, //set the number of records to display per page
+                schema:{ // define the schema for the DataSource
+                    model:{
+                        id:"CityId", // specify the unique identifier field for the model
+                        fields:{ // define the fields for the model
+                           
+                           CityId:{ // define the CityId field
+                                type:"number", // specify the data type for CityId
+                                editable:false, // make CityId non-editable
+                                nullable:true // allow CityId to be null (for new records)
+                            },
+                            
+                            CityName:{ // define the CityName field
+                                type:"string", // specify the data type for CityName
+                                validation:{required:true} // make CityName a required field
+                            },
+                            Image:{ // define the Image field
+                                type:"string", // specify the data type for Image
+                                validation:{required:true} // make Image a required field
+                            }
+                        }
+                    }
+                }
+            });
+
+            // initialize the Kendo UI Grid with the configured DataSource
+            $("#grid").kendoGrid({
+                dataSource:dataSource, // set the DataSource for the grid
+               
+                columns:[ // define the columns for the grid
+                    {field:"CityId",title:"City ID"}, // column for CityId
+                    {field:"CityName",title:"City Name"},
+                    {field:"Image",title:"Image"}, // column for Image
+                    {command:["edit","destroy"],title:"Actions"} // command column with edit and delete buttons
+                ],
+
+                editable:'popup', // enable popup editing for the grid
+                toolbar:["create"], // add a toolbar with a create button
+                pageable:true, // enable pagination for the grid
+                sortable:true, // enable sorting for the grid
+                filterable:true, // enable filtering for the grid
+
+                edit:function(e){ // handle the edit event of the grid
+                    var popup = e.container.data("kendoWindow"); // get the Kendo Window instance for the edit popup
+                    var updateButton=e.container.find(".k-grid-update"); // find the update button in the popup
+                    var isNew=e.model.isNew(); // check if the model being edited is new (for create operation)
+
+                    if(isNew){ // if it's a new record (create operation)
+                        popup.title("Add New City"); // set the title of the popup to "Add New City"
+                        updateButton.text("Add"); // change the text of the update button to "Add"  
+                    }else{ // if it's an existing record (update operation)
+                        popup.title("Edit City"); // set the title of the popup to "Edit City"
+                        updateButton.text("Update"); // change the text of the update button to "Update"
+                    }
+                }
+            });
+
+            //Initialize Kendo UI Notification widget for showing success, info, and error messages based on CRUD operations
+             $("#notification").kendoNotification({
+                position: {
+                    pinned: true,
+                    top: 30,
+                    right: 30
+                },
+                autoHideAfter: 3000,
+                stacking: "down",
+                templates: [
+                    {
+                        type: "success",
+                        template: "<div class='k-notification-success'>#= message #</div>"
+                    },
+                    {
+                        type: "info",
+                        template: "<div class='k-notification-info'>#= message #</div>"
+                    },
+                    {
+                        type: "error",
+                        template: "<div class='k-notification-error'>#= message #</div>"
+                    }
+                ]
+            });
+
+            // Bind to the error event of the DataSource to show an error notification for any errors during CRUD operations
+            dataSource.bind("error", function(e){ // bind to the error event of the DataSource
+                $("#notification").kendoNotification().data("kendoNotification").show("An error occurred while processing your request.", "error"); // show error notification for any errors during CRUD operations
+            });
+
+            // bind to the requestEnd event of the DataSource to show notifications based on the type of operation performed
+            dataSource.bind("requestEnd", function(e){ // bind to the requestEnd event of the DataSource
+                if(e.type==="create"){ // if the request type is create
+                    $("#notification").kendoNotification().data("kendoNotification").show("City added successfully!", "success"); // show success notification for adding a city
+                }else if(e.type==="update"){ // if the request type is update
+                    $("#notification").kendoNotification().data("kendoNotification").show("City updated successfully!", "info"); // show info notification for updating a city
+                }else if(e.type==="destroy"){ // if the request type is destroy
+                    $("#notification").kendoNotification().data("kendoNotification").show("City deleted successfully!", "error"); // show error notification for deleting a city
+                }
+            });
+
+            // bind a click event handler to the cancel changes button in the grid to cancel any unsaved changes when clicked
+            $("#grid").on("click",".k-grid-cancel-changes",function(){
+                dataSource.cancelChanges(); // cancel any unsaved changes in the grid when the cancel button is clicked 
+            })
+                
+        })
+    </script>
+}
+_----------------------------------------------------------------------------------------------- Kendo Form ------------------------------------------------------------------------------------
+@{
+    ViewData["Title"] = "Register";
+}
+
+<div id="validation-success"></div>
+
+<div class="container mt-5" style="border: 1px solid #ccc; width: 70%; padding:20px">
+    <h3>Register</h3>
+    <form id="registerform"></form>
+</div>
+
+@section Scripts{
+<script>
+$(document).ready(function () {
+
+    const validationSuccess = $("#validation-success");
+
+    $("#registerform").kendoForm({
+
+        validatable: {
+            validateOnBlur: true,
+            validationSummary: false,
+            errorTemplate: "<span class='k-form-error'>#:message#</span>"
+        },
+
+        items: [
+
+            // Name
+            {
+                field: "Name",
+                label: "Name:",
+                validation: { required: { message: "Please enter your name." } }
+            },
+
+            // Email
+            {
+                field: "Email",
+                label: "Email:",
+                validation: {
+                    required: { message: "Please enter your email." },
+                    email: { message: "Please enter a valid email address." }
+                }
+            },
+
+            // Password
+            {
+                field: "Password",
+                label: "Password:",
+                validation: { required: { message: "Please enter password." } },
+                editor: function (container, options) {
+                    $('<input type="password" name="' + options.field + '" autocomplete="off"/>')
+                        .appendTo(container)
+                        .kendoTextBox();
+                }
+            },
+
+            // Confirm Password
+            {
+                field: "ConfirmPassword",
+                label: "Confirm Password:",
+                validation: { required: { message: "Please confirm password." } },
+                editor: function (container, options) {
+                    $('<input type="password" name="' + options.field + '" autocomplete="off"/>')
+                        .appendTo(container)
+                        .kendoTextBox();
+                }
+            },
+
+            // Age (INT)
+            {
+                field: "Age",
+                label: "Age:",
+                validation: { required: { message: "Enter age." } },
+                editor: function (container, options) {
+                    $('<input name="' + options.field + '"/>')
+                        .appendTo(container)
+                        .kendoNumericTextBox({
+                            format: "n0",
+                            min: 1,
+                            max: 120
+                        });
+                }
+            },
+
+            // Address
+            { field: "Address", label: "Address:" },
+
+            // Mobile
+            { field: "Mobile", label: "Mobile:" },
+
+            // Gender
+            {
+                field: "Gender",
+                label: "Gender:",
+                validation: { required: { message: "Select gender." } },
+                editor: function (container, options) {
+
+                    const genders = ["Male", "Female", "Other"];
+                    const wrapper = $('<div class="k-radio-group"></div>').appendTo(container);
+
+                    genders.forEach(g => {
+                        $('<label class="k-radio-label" style="margin-right:15px;"></label>')
+                            .append('<input type="radio" name="' + options.field + '" value="' + g + '" required />')
+                            .append(" " + g)
+                            .appendTo(wrapper);
+                    });
+                }
+            },
+
+            // Hobbies (Checkbox group)
+            {
+                field: "Hobbies",
+                label: "Hobbies:",
+                editor: function (container) {
+
+                    const hobbies = ["Reading", "Sports", "Music"];
+                    const wrapper = $('<div></div>').appendTo(container);
+
+                    hobbies.forEach(h => {
+                        $('<label style="margin-right:15px;"></label>')
+                            .append('<input type="checkbox" class="hobbyChk" value="' + h + '"/>')
+                            .append(" " + h)
+                            .appendTo(wrapper);
+                    });
+                }
+            },
+
+            // Country ComboBox
+            {
+                field: "Country",
+                label: "Country:",
+                validation: { required: { message: "Select country." } },
+                editor: function (container, options) {
+                    $('<input name="' + options.field + '"/>')
+                        .appendTo(container)
+                        .kendoComboBox({
+                            placeholder: "Select country...",
+                            dataSource: ["India","USA","UK","Canada","Australia"]
+                        });
+                }
+            },
+
+            // Skills MultiSelect
+            {
+                field: "Skills",
+                label: "Skills:",
+                editor: function (container, options) {
+                    $('<input name="' + options.field + '"/>')
+                        .appendTo(container)
+                        .kendoMultiSelect({
+                            placeholder: "Select skills...",
+                            dataSource: ["C#","Java","Python","JavaScript","SQL"]
+                        });
+                }
+            },
+
+            // Accept Terms & Conditions
+            {
+                field: "AcceptTerms",
+                label: "Terms:",
+                validation: {
+                    required: { message: "You must accept terms and conditions." }
+                },
+                editor: function (container, options) {
+
+                    const wrapper = $('<div></div>').appendTo(container);
+
+                    $('<label></label>')
+                        .append('<input type="checkbox" id="chkTerms" name="' + options.field + '" required />')
+                        .append(' I accept the Terms & Conditions')
+                        .appendTo(wrapper);
+                }
+            },
+
+            // Profile Image
+            {
+                field: "image",
+                label: "Profile Picture:",
+                validation: { required: { message: "Please select image." } },
+                editor: function (container, options) {
+                    $('<input type="file" name="' + options.field + '" />')
+                        .appendTo(container)
+                        .kendoUpload({
+                            multiple: false
+                        });
+                }
+            }
+        ],
+
+        buttonsTemplate:
+            '<button type="submit" class="k-button k-button-lg k-button-solid-success">Register</button> ' +
+            '<button type="button" id="btnClearForm" class="k-button k-button-lg">Clear</button>',
+
+        validateField: function () {
+            validationSuccess.html("");
+        },
+
+        submit: function (e) {
+            e.preventDefault();
+
+            // extra safety check
+            if (!$("#chkTerms").is(":checked")) {
+                validationSuccess.html("<div class='k-messagebox k-messagebox-error'><p>Please accept Terms & Conditions.</p></div>");
+                return;
+            }
+
+            // collect hobbies
+            const hobbies = [];
+            $(".hobbyChk:checked").each(function () {
+                hobbies.push($(this).val());
+            });
+
+            const RegisterData = new FormData();
+
+            RegisterData.append("Name", e.model.Name);
+            RegisterData.append("Email", e.model.Email);
+            RegisterData.append("Password", e.model.Password);
+            RegisterData.append("ConfirmPassword", e.model.ConfirmPassword);
+            RegisterData.append("Age", e.model.Age);
+            RegisterData.append("Address", e.model.Address);
+            RegisterData.append("Mobile", e.model.Mobile);
+            RegisterData.append("Gender", e.model.Gender);
+            RegisterData.append("Country", e.model.Country);
+            RegisterData.append("Skills", e.model.Skills);
+            RegisterData.append("Hobbies", hobbies);
+            RegisterData.append("AcceptTerms", $("#chkTerms").is(":checked"));
+
+            var imageFile = $("input[name=image]")[0].files[0];
+            if (imageFile) {
+                RegisterData.append("ProfilePicture", imageFile);
+            }
+
+            $.ajax({
+                url: "/Home/FormTemplate", // Your API endpoint
+                method: "post",
+                contentType: false,
+                processData: false,
+                data: RegisterData,
+                success: function (result) {
+                    if (result.success) {
+                        validationSuccess.html("<div class='k-messagebox k-messagebox-success'><p>"+result.message+"</p></div>");
+                    } else {
+                        validationSuccess.html("<div class='k-messagebox k-messagebox-error'><p>"+result.message+"</p></div>");
+                    }
+                }
+            });
+        }
+    });
+
+    // Clear button fix
+    $(document).on("click", "#btnClearForm", function () {
+        $("#registerform").data("kendoForm").clear();
+        validationSuccess.html("");
+        $(".hobbyChk").prop("checked", false);
+        $("#chkTerms").prop("checked", false);
+    });
+});
+</script>
+}
+
+
+
+ <script>
+        $(document).ready(function() {
+            // Direct schema data from PostgreSQL URI - NO AJAX
+            var schemaData = @Html.Raw(Json.Serialize(employees));
+            
+            // Dynamic schema from database metadata
+            var schemaModel = {
+                data: schemaData,
+                schema: {
+                    model: {
+                        id: "Id",
+                        fields: {
+                            "Id": { type: "number", editable: false },
+                            "Name": { type: "string" },
+                            "City": { type: "string" },
+                            "Department": { type: "string" },
+                            "DeptFullName": { type: "string" },
+                            "Salary": { type: "number" },
+                            "HireDate": { type: "date" }
+                        }
+                    }
+                },
+                pageSize: 10,
+                sort: { field: "Name", dir: "asc" }
+            };
+
+            $("#grid").kendoGrid({
+                dataSource: schemaModel,
+                height: 500,
+                scrollable: true,
+                sortable: true,
+                pageable: {
+                    refresh: true,
+                    pageSizes: [5, 10, 20, "all"]
+                },
+                filterable: true,
+                columnMenu: true,
+                columns: [
+                    { field: "Id", title: "ID", width: 80 },
+                    { field: "Name", title: "Name", width: 150 },
+                    { field: "City", title: "City", width: 120 },
+                    { field: "Department", title: "Dept", width: 100 },
+                    { field: "DeptFullName", title: "Full Dept", width: 150 },
+                    { 
+                        field: "Salary", 
+                        title: "Salary ₹", 
+                        width: 120,
+                        format: "{0:n0}",
+                        attributes: { class: "text-right" }
+                    },
+                    { 
+                        field: "HireDate", 
+                        title: "Join Date",
+                        width: 130,
+                        format: "{0:dd-MMM-yyyy}"
+                    }
+                ]
+            });
+        });
+    </script>

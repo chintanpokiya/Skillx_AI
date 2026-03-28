@@ -1,0 +1,52 @@
+@{
+    ViewData["Title"] = "Kendo Form Example";
+}
+<div>my recomendations:- @ViewBag.Domains</div>
+<div id="recommendationList"></div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            var userDomains = "@ViewBag.Domains";
+
+            // convert to string (VERY IMPORTANT)
+            let userInterest = userDomains.replace(/,/g, " ");
+
+            $.ajax({
+                url: "http://127.0.0.1:8000/recommend",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({
+                    user_interest: userInterest
+                }),
+                success: function (res) {
+
+                    let html = "";
+
+                    let data = res.recommendations; // ✅ IMPORTANT
+
+                    if (!data || data.length === 0) {
+                        html = "<p>No recommendations found</p>";
+                    } else {
+                        data.forEach(item => {
+                            html += `
+                            <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+                                <h4>${item.post_title}</h4>
+                                <p>${item.post_tags}</p>
+                                <small>${item.interaction}</small>
+                            </div>
+                        `;
+                        });
+                    }
+
+                    $("#recommendationList").html(html);
+                },
+                error: function (err) {
+                    console.log(err);
+                    $("#recommendationList").html("<p>Error loading recommendations</p>");
+                }
+            });
+
+        });
+    </script>
+}

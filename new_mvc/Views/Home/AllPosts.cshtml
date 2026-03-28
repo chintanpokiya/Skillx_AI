@@ -1,0 +1,37 @@
+@model List<dynamic>
+
+<div class="page">
+
+    <div class="title">All Posts</div>
+
+    @if (!Model.Any())
+    {
+        <div class="empty">No posts available</div>
+    }
+    else
+    {
+        <div class="post-list">
+            @foreach (var post in Model)
+            {
+                var tags = post.Tags?.Split(',') ?? new string[] {};
+
+                <div class="post-card">
+
+                    <div class="post-content">
+                        @post.Content
+                    </div>
+
+                    <div class="tag-container">
+                        @foreach (var tag in tags)
+                        {
+                            <span class="tag">#@tag</span>
+                        }
+                    </div>
+
+
+                </div>
+            }
+        </div>
+    }
+
+</div>

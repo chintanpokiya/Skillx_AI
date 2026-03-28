@@ -1,0 +1,39 @@
+<h2>Login</h2>
+
+<input type="email" id="email" placeholder="Enter Email" class="k-textbox" /><br><br>
+
+<input type="password" id="password" placeholder="Enter Password" class="k-textbox" /><br><br>
+
+<button id="loginBtn">Login</button>
+
+@section Scripts{
+    <script>
+$("#loginBtn").click(function () {
+
+    var data = {
+        email: $("#email").val(),
+        password: $("#password").val()
+    };
+
+    $.ajax({
+        url: '/Home/LoginUser',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function (res) {
+
+            if (res.success) {
+                alert(res.message);
+                window.location.href = "/Home/Recommendation";
+            } else {
+                alert(res.message);
+            }
+        },
+        error: function () {
+            alert("Login failed");
+        }
+    });
+
+});
+</script>
+}

@@ -1,0 +1,88 @@
+@{
+    ViewData["Title"] = "Post Analyzer";
+}
+
+
+
+<div class="page">
+    <div class="title">Post Analyzer & Publisher</div>
+
+    <textarea id="txtInput" class="input-box" placeholder="Write your post here..."></textarea>
+
+    <button id="btnSubmit" class="btn-submit">Submit Post</button>
+
+    <div id="resultSection" class="result">
+        <div id="statusMessage"></div>
+        <div id="categoryList"></div>
+    </div>
+</div>
+
+@section Scripts{
+<script>
+$(document).ready(function () {
+
+    $("#btnSubmit").click(function () {
+
+        const text = $("#txtInput").val().trim();
+
+        if (!text) {
+            alert("Please enter text");
+            return;
+        }
+
+        $("#resultSection").hide();
+
+        $.ajax({
+            url: "/Home/Post/",
+            type: "POST",
+            data : {text : text},
+            success: function (res) {
+
+                $("#resultSection").fadeIn(300);
+
+                if (res.success) {
+
+                    $("#statusMessage")
+                        .removeClass()
+                        .addClass("success")
+                        .text("✅ Your post has been successfully published!");
+
+                    $("#categoryList").html("");
+
+                } else {
+
+                    $("#statusMessage")
+                        .removeClass()
+                        .addClass("error")
+                        .text("⚠️ Post contains inappropriate content");
+
+                    let html = "";
+
+                    for (let key in res.moderation) {
+                        let val = res.moderation[key];
+
+                        html += `
+                            <div class="category">
+                                <div class="category-item">
+                                    <span>${key}</span>
+                                    <span>${(val * 100).toFixed(1)}%</span>
+                                </div>
+                                <div class="bar">
+                                    <div class="bar-fill" style="width:${val * 100}%"></div>
+                                </div>
+                            </div>
+                        `;
+                    }
+
+                    $("#categoryList").html(html);
+                }
+            },
+            error: function () {
+                alert("Server error");
+            }
+        });
+    });
+
+});
+</script>
+}

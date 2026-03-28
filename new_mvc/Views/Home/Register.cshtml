@@ -1,0 +1,202 @@
+@{
+    ViewData["Title"] = "Privacy Policy";
+}
+
+<style>
+    .step-content {
+        display: none;
+        margin-top: 20px;
+    }
+
+    .active-step {
+        display: block;
+    }
+</style>
+
+<div id="stepper"></div>
+
+<!-- STEP 1 -->
+<div id="step1" class="step-content">
+    <h3>Personal Details</h3>
+
+    <input type="text" id="name" placeholder="Enter Name" class="k-textbox" /><br><br>
+
+    <label>Gender:</label><br>
+    <input type="radio" name="gender" value="Male"> Male
+    <input type="radio" name="gender" value="Female"> Female<br><br>
+
+    <input type="date" id="dob" class="k-textbox" />
+</div>
+
+<!-- STEP 2 -->
+<div id="step2" class="step-content">
+    <h3>Account Details</h3>
+
+    <input type="email" id="email" placeholder="Enter Email" class="k-textbox" /><br><br>
+
+    <input type="password" id="password" placeholder="Enter Password" class="k-textbox" />
+</div>
+
+<!-- STEP 3 -->
+<div id="step3" class="step-content">
+    <h3>Select Tech Domains</h3>
+
+    <div id="domainsContainer"></div>
+</div>
+
+<!-- STEP 4 -->
+<div id="step4" class="step-content">
+    <h3>Confirmation</h3>
+
+    <div id="summary"></div>
+</div>
+
+<br>
+
+<button id="prevStep">Previous</button>
+<button id="nextStep">Next</button>
+<button id="submitBtn" style="display:none;">Submit</button>
+
+</html>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            $(document).on("change", ".domainCheck", function () {
+
+                var selected = $(".domainCheck:checked");
+
+                // ❌ Block more than 3
+                if (selected.length > 3) {
+                    $(this).prop("checked", false);
+                    alert("Maximum 3 domains allowed!");
+                    return;
+                }
+
+                // ✅ Disable remaining if 3 selected
+                if (selected.length === 3) {
+                    $(".domainCheck").not(":checked").prop("disabled", true);
+                } else {
+                    $(".domainCheck").prop("disabled", false);
+                }
+            });
+
+            var domains = [
+                "python", "java", "csharp", "javascript", "typescript", "golang", "php",
+                "mern", "dotnet", "springboot", "django", "flask",
+                "react", "angular", "nextjs", "node", "express",
+                "html", "css", "bootstrap", "tailwind", "jquery",
+                "sql", "mysql", "postgresql", "mongodb", "firebase",
+                "devops", "docker", "kubernetes", "aws", "azure", "gcp",
+                "ml", "ai", "datascience", "nlp",
+                "winforms", "wpf", "git", "github"
+            ];
+
+            // ✅ Create checkbox list (multi-select)
+            domains.forEach(function (item) {
+                $("#domainsContainer").append(
+                    `<label>
+                                    <input type="checkbox" class="domainCheck" value="${item}"> ${item}
+                                </label><br>`
+                );
+            });
+
+            var stepper = $("#stepper").kendoStepper({
+                steps: [
+                    { label: "Personal Details", icon: "user" },
+                    { label: "Account", icon: "lock" },
+                    { label: "Domains", icon: "list" },
+                    { label: "Confirm", icon: "check" }
+                ],
+                linear: false,
+                activate: function (e) {
+                    updateStepContent(e.step.options.index);
+                }
+            }).data("kendoStepper");
+
+            function updateStepContent(index) {
+                $(".step-content").hide();
+                $("#step" + (index + 1)).show();
+
+                // 👇 Button control
+                if (index === 3) {
+                    $("#nextStep").hide();
+                    $("#submitBtn").show();
+                    showSummary();
+                } else {
+                    $("#nextStep").show();
+                    $("#submitBtn").hide();
+                }
+            }
+
+            $("#nextStep").click(function () {
+                stepper.next();
+                updateStepContent(stepper.selectedStep.options.index);
+            });
+
+            $("#prevStep").click(function () {
+                stepper.previous();
+                updateStepContent(stepper.selectedStep.options.index);
+            });
+
+            function showSummary() {
+                var name = $("#name").val();
+                var gender = $("input[name='gender']:checked").val();
+                var dob = $("#dob").val();
+                var email = $("#email").val();
+
+                var selectedDomains = [];
+                $(".domainCheck:checked").each(function () {
+                    selectedDomains.push($(this).val());
+                });
+
+                $("#summary").html(`
+                            <p><b>Name:</b> ${name}</p>
+                            <p><b>Gender:</b> ${gender}</p>
+                            <p><b>DOB:</b> ${dob}</p>
+                            <p><b>Email:</b> ${email}</p>
+                            <p><b>Domains:</b> ${selectedDomains.join(", ")}</p>
+                            `);
+            }
+            var selectedCount = $(".domainCheck:checked").length;
+
+   
+            updateStepContent(0);
+
+            $("#submitBtn").click(function () {
+
+                var selectedDomains = [];
+                $(".domainCheck:checked").each(function () {
+                    selectedDomains.push($(this).val());
+                });
+
+                var data = {
+                    name: $("#name").val(),
+                    gender: $("input[name='gender']:checked").val(),
+                    dob: $("#dob").val(),
+                    email: $("#email").val(),
+                    password: $("#password").val(),
+                    domains: selectedDomains.join(",")
+                };
+
+                $.ajax({
+                    url: '/Home/Create', // 👈 your controller is HomeController
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function (res) {
+                        alert(res.message);
+                        window.location.href="/Home/Login";
+                    },
+                    error: function (err) {
+                        alert(err.responseText);
+                    }
+                });
+
+            });
+
+            
+        });
+    </script>
+}
