@@ -1,0 +1,105 @@
+@{
+    ViewData["Title"] = "Smart Search";
+    Layout = "../Shared/_AuthLayout.cshtml";
+}
+
+<div class="page">
+
+    <div class="title">Smart Search</div>
+
+    <div class="search-box">
+        <input id="searchCombo" style="width:100%;" />
+        <button id="btnSearch">Search</button>
+    </div>
+
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+            // 🔥 KENDO COMBOBOX
+            $("#searchCombo").kendoComboBox({
+                placeholder: "Search here...",
+                dataTextField: "post_title",   // main display text
+                dataValueField: "post_title",
+
+                filter: "contains",
+                suggest: true,
+                minLength: 1,
+
+                template: `
+                <div class="combo-item">
+                    <div class="combo-title">#: post_title #</div>
+                    <div class="combo-comment">#: comment #</div>
+                    <div class="combo-score">Score: #: score.toFixed(2) #</div>
+                </div>
+            `,
+
+                dataSource: {
+                    transport: {
+                        read: function (options) {
+
+                            let query = $("#searchCombo").data("kendoComboBox").text();
+
+                            if (!query) {
+                                options.success([]);
+                                return;
+                            }
+
+                            $.ajax({
+                                url: "http://127.0.0.1:8000/autocomplete",
+                                type: "POST",
+                                contentType: "application/json",
+                                data: JSON.stringify({ query: query }),
+
+                                success: function (res) {
+                                    options.success(res.suggestions); // 🔥 important
+                                },
+
+                                error: function () {
+                                    options.error([]);
+                                }
+                            });
+                        }
+                    },
+                    serverFiltering: true
+                }
+            });
+
+            // 🔥 BUTTON CLICK
+            $("#btnSearch").click(function () {
+                let combo = $("#searchCombo").data("kendoComboBox");
+                let value = combo.text();
+
+                if (!value) return;
+
+                // call API again on button click
+                $.ajax({
+                    url: "http://127.0.0.1:8000/autocomplete",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify({ query: value }),
+
+                    success: function (res) {
+                        combo.dataSource.data(res.suggestions);
+                        combo.open(); // open dropdown
+
+                        setTimeout(() => {
+                            let firstItem = $(".k-list-item").first();
+                            firstItem.addClass("highlight-top");
+
+                            // remove after animation
+                            setTimeout(() => {
+                                firstItem.removeClass("highlight-top");
+                            }, 3000);
+                        }, 100);
+                    }
+
+                    
+                });
+            });
+
+        });
+    </script>
+}

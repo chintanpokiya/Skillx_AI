@@ -32,3 +32,4 @@ D:\casepoint\SkillX_AiApp\new_mvc\obj\Debug\net8.0\refint\new_mvc.dll
 D:\casepoint\SkillX_AiApp\new_mvc\obj\Debug\net8.0\new_mvc.pdb
 D:\casepoint\SkillX_AiApp\new_mvc\obj\Debug\net8.0\new_mvc.genruntimeconfig.cache
 D:\casepoint\SkillX_AiApp\new_mvc\obj\Debug\net8.0\ref\new_mvc.dll
+D:\casepoint\SkillX_AiApp\new_mvc\obj\Debug\net8.0\new_mvc.sourcelink.json

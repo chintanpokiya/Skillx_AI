@@ -63,7 +63,7 @@ public class HomeController : Controller
     public async Task<IActionResult> AllPosts()
     {
         var posts = new List<dynamic>();
-        
+
         using (var conn = new NpgsqlConnection(GetConnection()))
         {
             await conn.OpenAsync();
@@ -146,6 +146,11 @@ public class HomeController : Controller
         }
     }
     public IActionResult Privacy()
+    {
+        return View();
+    }
+
+    public IActionResult AutoComplete()
     {
         return View();
     }
@@ -279,6 +284,8 @@ public class HomeController : Controller
 
         return Ok(new { success = true });
     }
+
+
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

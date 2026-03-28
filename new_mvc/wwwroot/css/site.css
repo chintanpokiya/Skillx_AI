@@ -171,8 +171,11 @@ body > * { position: relative; z-index: 1; }
     border-bottom: 1px solid var(--border) !important;
     padding: 0.7rem 0;
     box-shadow: 0 2px 30px rgba(0,0,0,0.3);
-    position: relative;
-    z-index: 100;
+
+    /* ✅ Add these three lines */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
 }
 /* Running shimmer line under navbar */
 .navbar::after {
@@ -1136,4 +1139,129 @@ button:hover::after { left: 150%; }
     color: var(--text-muted);
     margin-top: 2rem;
     font-size: 0.9rem;
+}
+
+
+/* ───────────────────────────────────────────── */
+/* REMOVE KENDO DEFAULT DROPDOWN BUTTON         */
+/* ───────────────────────────────────────────── */
+.k-select {
+    display: none !important;
+}
+
+/* ───────────────────────────────────────────── */
+/* COMBOBOX INPUT (MATCH YOUR INPUT THEME)      */
+/* ───────────────────────────────────────────── */
+.k-combobox {
+    flex: 1;
+    width: 100% !important;
+}
+
+.k-input-inner {
+    background: var(--bg-input) !important;
+    color: var(--text-primary) !important;
+    border: none !important;
+}
+
+/* Fix wrapper */
+.k-input {
+    background: var(--bg-input) !important;
+    border: 1.5px solid var(--border) !important;
+    border-radius: var(--radius-sm) !important;
+}
+
+/* Focus */
+.k-input:focus-within {
+    border-color: var(--border-focus) !important;
+    box-shadow: 0 0 0 3px var(--cyan-dim);
+}
+
+/* ───────────────────────────────────────────── */
+/* DROPDOWN CONTAINER                          */
+/* ───────────────────────────────────────────── */
+.k-animation-container,
+.k-list-container {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border) !important;
+    border-radius: var(--radius-md) !important;
+    box-shadow: var(--shadow-card) !important;
+}
+
+/* LIST BACKGROUND FIX */
+.k-list {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+}
+
+/* EACH ITEM RESET */
+.k-list-item {
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    border: none !important;
+}
+
+/* HOVER */
+.k-list-item:hover {
+    background: var(--cyan-dim) !important;
+    color: var(--cyan-light) !important;
+}
+
+/* SELECTED ITEM */
+.k-selected {
+    background: var(--cyan-dim) !important;
+    color: var(--cyan-light) !important;
+}
+
+/* ───────────────────────────────────────────── */
+/* YOUR CUSTOM TEMPLATE (NOW WORKS PROPERLY)    */
+/* ───────────────────────────────────────────── */
+.combo-item {
+    padding: 0.6rem 0.8rem;
+}
+
+.combo-title {
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: var(--text-primary) !important;
+}
+
+.combo-comment {
+    font-size: 0.75rem;
+    color: var(--text-secondary) !important;
+}
+
+.combo-score {
+    font-size: 0.7rem;
+    color: var(--cyan) !important;
+}
+
+/* ───────────────────────────────────────────── */
+/* SEARCH BOX LAYOUT                           */
+/* ───────────────────────────────────────────── */
+.search-box {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+
+/* ───────────────────────────────────────────── */
+/* TEMP HIGHLIGHT FIRST ITEM (3 SEC)            */
+/* ───────────────────────────────────────────── */
+.highlight-top {
+    animation: highlightFlash 3s ease;
+}
+
+@keyframes highlightFlash {
+    0% {
+        background: rgba(0, 212, 170, 0.35);
+        box-shadow: 0 0 15px rgba(0,212,170,0.5);
+    }
+    50% {
+        background: rgba(0, 212, 170, 0.2);
+    }
+    100% {
+        background: transparent;
+        box-shadow: none;
+    }
 }
